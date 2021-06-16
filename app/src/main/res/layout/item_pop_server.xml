@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tvAli"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="阿里生产服务"
+        android:textColor="@color/color_222222" />
+
+    <TextView
+        android:id="@+id/tvAliUat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="阿里UAT服务"
+        android:textColor="@color/color_222222" />
+
+    <TextView
+        android:id="@+id/tvLocal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="本地服务"
+        android:textColor="@color/color_222222" />
+
+    <TextView
+        android:id="@+id/tvHuawei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="华为服务"
+        android:textColor="@color/color_222222" />
+
+    <TextView
+        android:id="@+id/tvWei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="小伟"
+        android:textColor="@color/color_222222" />
+
+    <TextView
+        android:id="@+id/tvFu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="付志豪"
+        android:textColor="@color/color_222222" />
+
+    <TextView
+        android:id="@+id/tvYu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="黄宇飞"
+        android:textColor="@color/color_222222" />
+
+    <TextView
+        android:id="@+id/tvLiu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="刘震海"
+        android:textColor="@color/color_222222" />
+</LinearLayout>
