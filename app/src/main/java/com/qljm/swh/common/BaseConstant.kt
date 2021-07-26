@@ -1,4 +1,4 @@
-package com.qljm.swh.common
+package com.lihui.base.common
 
 class BaseConstant {
     companion object {
@@ -8,20 +8,19 @@ class BaseConstant {
         var BASE_WU_h5 = "http://192.168.1.5:2020"
 
         //本地服务器-小伟
-        var BASE_WEI_URL = "http://192.168.1.27:9871"
+        var BASE_WEI_URL = "http://192.168.1.43:9871"
         var BASE_WEI_h5 = "http://192.168.1.5:2020"
 
         //本地服务器-黄宇飞
         var BASE_YU_URL = "http://192.168.1.34:9871"
         var BASE_YU_h5 = "http://192.168.1.5:2020"
 
-
         //本地服务器-刘震海
-        var BASE_LIU_URL = "http://192.168.1.19:9871"
+        var BASE_LIU_URL = "http://192.168.1.56:9871"
 
         // 本地服务器
-        const val BASE_LOCAL_URL = "http://192.168.1.5:9871" //本地服务器
-        const val BASE_LOCAL_h5 = "http://192.168.1.5:2020"  //测试环境h5
+        const val BASE_LOCAL_URL = "http://192.168.1.2:9871" //本地服务器
+        const val BASE_LOCAL_h5 = "http://192.168.1.2:2020"  //测试环境h5
 
         // 华为测试环境
         const val BASE_HUAWEI_URL = "http://test.api.worldhds.net"  //布置华为测试环境
@@ -34,11 +33,14 @@ class BaseConstant {
         // 阿里UAT环境
         const val BASE_ALI_UAT_URL = "http://47.107.75.83:19871"
         const val BASE_ALI_UAT_PUSH_URL = "http://47.107.75.83:10301"
-        const val BASE_ALI_UAT_h5 = "http://47.107.75.83:12020"
+        const val BASE_ALI_UAT_h5 = "http://uat.wap.worldhds.net"    //"http://47.107.75.83:12020"
 
         // 这里千万不要改动，release包，默认正式打包环境是阿里，如果debug需要切换请从首页logo的PopWindow点击切换服务  19871
-        var BASE_URL = BASE_ALI_URL     // BASE_ALI_URL
+        var BASE_URL = BASE_ALI_URL
         var BASE_h5 = BASE_ALI_h5
+
+        //        var BASE_URL = BASE_ALI_UAT_URL
+//        var BASE_h5 = BASE_ALI_UAT_h5
         var BASE_PUSH_URL = "http://api.worldhds.net:10300"
 
         // ===================================千人千面环境======================================================
@@ -69,6 +71,7 @@ class BaseConstant {
         const val USER_GGOPENID = "user_ggOpenId"
         const val USER_HEADURL = "user_headUrl"
         const val USER_ID = "user_id"
+        const val RONGYUN_USER_ID = "rongyun_user_id"
         const val USER_NAME = "user_name"
         const val USER_PASSWORD = "user_password"
         const val USER_MOBILE = "user_mobile"
@@ -80,7 +83,8 @@ class BaseConstant {
         const val INVITE_SHARE_URL = "inviter_share_url"
         const val INVITER_USER_TYPE = "inviter_user_type "
         const val USER_TYPE = "user_type "
-        const val LIKE_NUM = "like_num "
+        const val TRACK_ID = "track_id"
+        const val NEWS_TITLE = "new_title"
 
         const val USER_PHONE = "user_phone"
         const val USER_PHONE_INPUT = "user_phone_input"
@@ -102,12 +106,17 @@ class BaseConstant {
 
         const val LIVE_TOKEN = "LIVE_TOKEN"
         const val BANNER_URL = "BANNER_URL"
-        const val LIVE_URL = "LIVE_URL"
 
         const val CUSTOMER_MOBILE = "customer_mobile"//客服电话
         const val FEED_BACK_CONTENT = "feed_back_content"//意见反馈内容
         const val NOTIFY_DIALOG_SHOW_DATE = "notify_dialog_show_date"//通知栏弹窗时间
         const val TUIJIAN_ID = "tuijian_id"//推荐频道的id
+
+        //消息通知的小红点
+        const val NOTIFY_TIME = "notify_time" //消息通知的时间
+        const val COMENT_NUMBER = "coment_number" //新增评论数
+        const val LIKE_NUMBER = "like_number"   //新增点赞数
+        const val COUNT_NUMBER = "count_number" //总数
 
 
         //倒计时时间
@@ -165,6 +174,12 @@ class BaseConstant {
         const val CACHE_CITY = "cache_city"  // 缓存城市
         const val CACHE_MARQUEE = "cache_marquee"  // 缓存跑马灯
 
+        const val INTERS_MAIN_SWITCH = "inters_main_switch"  // 插屏总开关
+        const val INTERS_CHANNEL_SWITCH = "inters_channel_switch"  // 插屏-对应频道开关集合
+        const val FLOW_DETAIL_SWITCH = "flow_detail_switch"  // 信息流-新闻详情页开关
+        const val FLOW_LIST_SWITCH = "flow_list_switch"  // 信息流-新闻列表开关
+        const val SPLASH_AD_SWITCH = "splash_ad_switch"  // 开屏-开关
+        const val CLOSE_INTERS_CHANNEL = "close_inters_channel"  // 插屏-对应频道是否开启
 
         const val H5_PUSH = "1"
         const val NEWS_PUSH = "2"
@@ -173,9 +188,33 @@ class BaseConstant {
         const val TOPIC_PUSH = "5"
         const val HOME_PUSH = "6"
 
+        const val SHARD_INVITER_ID = "shard_inviter_id"
+        const val SHARD_ID = "shard_id"
+        const val SHARD_INVITER_TIME = "shard_inviter_time"
+        const val SHARD_INVITER_TYPE = "shard_inviter_type"
+
         const val LOCAL_CHANNEL_ID = 128  //  本地频道id
 
-
         const val SIGN = "dfasuiyhkuhjk2t5290wouojjeerweeqwqdfd"
+
+        const val APP_AUTHORITIES = "com.qljm.worldhds.fileprovider"
+        const val QQ_APPID = "101937585"
+
+        // 网易盾-产品编号
+        const val WY_PRODUCT_NUMBER = "YD00801947028806"
+
+        //在微博开发平台为应用申请的App Key
+        const val APP_KY = "1067047878"
+
+        //在微博开放平台设置的授权回调页
+        const val REDIRECT_URL = "https://api.weibo.com/oauth2/default.html"
+
+        //在微博开放平台为应用申请的高级权限
+        const val SCOPE = ("email,direct_messages_read,direct_messages_write,"
+                + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+                + "follow_app_official_microblog," + "invitation_write")
+        const val H5_REQUEST_CODE = 0x9999
+        const val H5_RESULT_CODE = 0x8888
+
     }
 }

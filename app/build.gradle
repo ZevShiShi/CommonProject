@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'kotlin-kapt' // kapt 插件
 }
 
 android {
@@ -36,7 +37,14 @@ android {
     }
 }
 
+
+kapt {
+    generateStubs = true
+}
+
 dependencies {
+//	implementation 'com.github.marcherdiego.mvp:events:1.1.2'
+//	implementation 'com.github.marcherdiego.mvp:coroutines:1.1.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -46,7 +54,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'com.github.cn-ljb:kotlin-mvp-lib:1.2.0'
+    implementation 'com.github.cn-ljb:kotlin-mvp-lib:1.2.1'
+
+    // dagger2
+    implementation 'com.google.dagger:dagger:2.23.2' // Dagger 2 支持
+    kapt 'com.google.dagger:dagger-compiler:2.23.2' // Dagger 2 注解处理
 
     // retrofit2     3.12.0
     implementation "com.squareup.okhttp3:okhttp:4.3.1"
@@ -63,12 +75,13 @@ dependencies {
     implementation "com.github.tbruyelle:rxpermissions:0.10.2"
 
     //rx life
-    implementation 'com.github.nekocode.rxlifecycle:rxlifecycle:2.0'
-    implementation 'com.github.nekocode.rxlifecycle:rxlifecycle-compact:2.0'
+    implementation 'com.trello.rxlifecycle3:rxlifecycle:3.1.0'
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-components:3.1.0'
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0'
+
     //gson
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.blankj:utilcode:1.29.0'
-
 
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.6.0"
     implementation 'me.jessyan:retrofit-url-manager:1.4.0'

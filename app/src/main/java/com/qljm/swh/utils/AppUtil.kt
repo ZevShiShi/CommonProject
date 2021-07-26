@@ -17,9 +17,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.*
+import com.lihui.base.common.BaseConstant
 import com.qljm.swh.R
 import com.qljm.swh.base.BaseApplication
-import com.qljm.swh.common.BaseConstant
 import com.qljm.swh.view.BackgroundBlurPopupWindow
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import java.io.*
@@ -127,7 +127,7 @@ object AppUtil {
 //    }
 
     private fun getFileDirPath(): String {
-        return BaseApplication.app?.filesDir?.absolutePath!!
+        return BaseApplication.context?.filesDir?.absolutePath!!
     }
 
     private fun getFileName(): String {
@@ -285,14 +285,14 @@ object AppUtil {
             if (i == 0) {
                 v.setTextColor(
                     ContextCompat.getColor(
-                        BaseApplication.app?.applicationContext!!,
+                        BaseApplication.context?.applicationContext!!,
                         R.color.color_CF0703
                     )
                 )
             } else {
                 v.setTextColor(
                     ContextCompat.getColor(
-                        BaseApplication.app?.applicationContext!!,
+                        BaseApplication.context?.applicationContext!!,
                         R.color.color_222222
                     )
                 )
@@ -325,7 +325,7 @@ object AppUtil {
      * 检查是否安装微信
      */
     fun checkInstallWx(): Boolean {
-        val packageManager = BaseApplication.app?.packageManager // 获取packagemanager
+        val packageManager = BaseApplication.context?.packageManager // 获取packagemanager
         val pinfo =
             packageManager?.getInstalledPackages(0) // 获取所有已安装程序的包信息
         if (pinfo != null) {

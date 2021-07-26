@@ -13,7 +13,7 @@ import android.util.DisplayMetrics;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.qljm.swh.common.BaseConstant;
+import com.lihui.base.common.BaseConstant;
 
 import java.util.Locale;
 

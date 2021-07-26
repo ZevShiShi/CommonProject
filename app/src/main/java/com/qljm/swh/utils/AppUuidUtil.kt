@@ -38,7 +38,7 @@ object AppUuidUtil {
             try {
                 var uuid: UUID? = null
                 synchronized(AppUuidUtil::class.java) {
-                    val prefs = BaseApplication.app?.getSharedPreferences(PREFS_FILE, 0)
+                    val prefs = BaseApplication.context?.getSharedPreferences(PREFS_FILE, 0)
                     val id = prefs?.getString(PREFS_DEVICE_ID, null)
                     if (id != null) {
                         uuid = UUID.fromString(id)
@@ -102,7 +102,7 @@ object AppUuidUtil {
     }
 
     private fun saveDeviceUuidToSD(uuid: String) {
-        val dirPath = BaseApplication.app?.filesDir?.absolutePath
+        val dirPath = BaseApplication.context?.filesDir?.absolutePath
         val targetFile = File(dirPath, DEVICE_UUID_FILE_NAME)
         if (!targetFile.exists()) {
             var osw: OutputStreamWriter? = null
@@ -149,7 +149,7 @@ object AppUuidUtil {
         get() {
             // Android Q获取不到imei，就获取ANDROID_ID
             if (ActivityCompat.checkSelfPermission(
-                    BaseApplication.app!!,
+                    BaseApplication.context!!,
                     Manifest.permission.READ_PHONE_STATE
                 ) != PackageManager.PERMISSION_GRANTED
             ) return ""
@@ -158,7 +158,7 @@ object AppUuidUtil {
                 return imei
             }
             return Settings.System.getString(
-                BaseApplication.app?.contentResolver, Settings.Secure.ANDROID_ID
+                BaseApplication.context?.contentResolver, Settings.Secure.ANDROID_ID
             )
         }
 
@@ -171,7 +171,7 @@ object AppUuidUtil {
     private val androidID: String
         @SuppressLint("HardwareIds")
         get() = Settings.Secure.getString(
-            BaseApplication.app?.contentResolver,
+            BaseApplication.context?.contentResolver,
             Settings.Secure.ANDROID_ID
         )
 
@@ -184,7 +184,7 @@ object AppUuidUtil {
      */
     private val wifiMac: String
         get() {
-            val wifi = BaseApplication.app?.applicationContext!!
+            val wifi = BaseApplication.context?.applicationContext!!
                 .getSystemService(Context.WIFI_SERVICE) as WifiManager
             if (wifi != null) {
                 val info = wifi.connectionInfo

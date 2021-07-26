@@ -1,36 +1,39 @@
-package com.qljm.swh.http
+package com.lihui.base.data.http
 
 
 import android.os.Build
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ObjectUtils
-import com.blankj.utilcode.util.SPUtils
+import com.lihui.base.common.BaseConstant
 import com.qljm.icelive.utils.AppUuidUtil
-import com.qljm.swh.utils.MD5Utils
 import com.qljm.swh.base.BaseApplication
-import com.qljm.swh.common.BaseConstant
+import com.qljm.swh.http.Level
+import com.qljm.swh.http.LoggingInterceptor
+import com.qljm.swh.http.convert.GsonConverterFactory
+import com.qljm.swh.utils.AppPrefsUtils
 import com.qljm.swh.utils.AppUtil
+import com.qljm.swh.utils.MD5Utils
 import com.qljm.swh.utils.MultiLanguageUtils
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import okhttp3.FormBody
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.Buffer
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.net.URLDecoder
 import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.LinkedHashMap
 
+/**
+ * 所有和response failed相关的错误都在类[LoggingInterceptor.intercept]函数中被拦截，debug改函数即可
+ *
+ */
+class RetrofitFactory {
 
-class RetrofitFactory private constructor() {
     companion object {
         val instance: RetrofitFactory = RetrofitFactory()
     }
@@ -42,16 +45,16 @@ class RetrofitFactory private constructor() {
     init {
         interceptor = Interceptor { chain ->
             var country = ""
-            var lang = if (SPUtils.getInstance().getString(BaseConstant.LOCALE_LANGUAGE)
+            var lang = if (AppPrefsUtils.getString(BaseConstant.LOCALE_LANGUAGE)
                     .isNotEmpty()
-                && SPUtils.getInstance().getString(BaseConstant.LOCALE_COUNTRY)
+                && AppPrefsUtils.getString(BaseConstant.LOCALE_COUNTRY)
                     .isNotEmpty()
             ) {
-                country = SPUtils.getInstance().getString(BaseConstant.LOCALE_COUNTRY)
-                SPUtils.getInstance().getString(BaseConstant.LOCALE_LANGUAGE) + "_" + country
+                country = AppPrefsUtils.getString(BaseConstant.LOCALE_COUNTRY)
+                AppPrefsUtils.getString(BaseConstant.LOCALE_LANGUAGE) + "_" + country
             } else {
-                country = MultiLanguageUtils.getAppLocale(BaseApplication.app).country
-                (MultiLanguageUtils.getAppLocale(BaseApplication.app).language) + "_" + country
+                country = MultiLanguageUtils.getAppLocale(BaseApplication.context).country
+                (MultiLanguageUtils.getAppLocale(BaseApplication.context).language) + "_" + country
             }
             lang = when (lang) {
                 "zh_TW" -> {
@@ -68,18 +71,15 @@ class RetrofitFactory private constructor() {
                 .addHeader("charset", "UTF-8")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("language", lang) //language,值：zh_CN:简体中文,tc_CN:繁体中文,en_US:英文
-                .addHeader(
-                    "token",
-                    SPUtils.getInstance().getString(BaseConstant.KEY_SP_TOKEN)
-                )
+                .addHeader("token", AppPrefsUtils.getString(BaseConstant.KEY_SP_TOKEN))
                 .addHeader("client_id", AppUuidUtil.uuid)
                 .addHeader(
                     "client_info",
                     Build.BRAND + ";" + AppUtil.getVersionName(
-                        BaseApplication.app
+                        BaseApplication.context
                     ) + ";" + Build.MODEL + ";" + Build.VERSION.RELEASE + ";"
                             + lang + ";" + AppUtil.getAppChannel(
-                        BaseApplication.app,
+                        BaseApplication.context,
                         "UMENG_CHANNEL"
                     )
                 )
@@ -125,14 +125,18 @@ class RetrofitFactory private constructor() {
     }
 
     private fun addPostParams(request: Request): Request {
-        var formBody = request.body
+        var body = request.body
+        // 获取请求的数据,@MultipartBody 不处理
+        if (body is MultipartBody) {
+            return request
+        }
         // form 表单
-        if (formBody is FormBody) {
-            val fieldSize = formBody?.size ?: 0
+        if (body is FormBody) {
+            val fieldSize = body?.size ?: 0
             val keyNames = mutableListOf<String>()
             keyNames.add("sign:")
             for (i in 0 until fieldSize) {
-                keyNames.add(formBody.name(i) + ":" + formBody.value(i))
+                keyNames.add(body.name(i) + ":" + body.value(i))
             }
             Collections.sort(keyNames, String.CASE_INSENSITIVE_ORDER) // 参数根据首字母排序
             val sortMap = LinkedHashMap<String, String>()  // 首字母升序排序完成的map
@@ -152,14 +156,10 @@ class RetrofitFactory private constructor() {
 //            builder.add("sign", finalSign)
             return request.newBuilder().addHeader("sign", finalSign).build()
         }
-        // 获取请求的数据,@Body
         val charset = Charset.forName("UTF-8")
         val buffer = Buffer()
-        formBody?.writeTo(buffer)
-        val requestData: String =
-            URLDecoder.decode(buffer.readString(charset).trim(), "utf-8")
-
-        // 普通表单
+        body?.writeTo(buffer)
+        val requestData: String = URLDecoder.decode(buffer.readString(charset).trim(), "utf-8")
         if (ObjectUtils.isNotEmpty(requestData)) {
             // @Body 方式
             val jsonObj = JSONObject(requestData)
@@ -190,7 +190,7 @@ class RetrofitFactory private constructor() {
             val jsonObj = JSONObject("{}")
             val tempSign = MD5Utils.encryptMD5ToString(BaseConstant.SIGN)
             val finalSign = MD5Utils.encryptMD5ToString(tempSign)
-            val body = jsonObj.toString().toRequestBody(formBody?.contentType())
+            val body = jsonObj.toString().toRequestBody(body?.contentType())
             return request.newBuilder().post(body).addHeader("sign", finalSign!!).build()
         }
     }
@@ -229,11 +229,11 @@ class RetrofitFactory private constructor() {
             .addInterceptor(interceptor)
             .addInterceptor(encryption)
             .addInterceptor(initLogInterceptor())
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .callTimeout(60, TimeUnit.SECONDS)
-//            .retryOnConnectionFailure(false) // 不重试请求
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .callTimeout(30, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true) // 不重试请求
 //           .proxy(Proxy.NO_PROXY)   //禁止抓包
     }
 
@@ -249,7 +249,6 @@ class RetrofitFactory private constructor() {
         }
         return LoggingInterceptor.Builder()
             .setLevel(level)
-
             .tag("okhttp")
             .build()
     }
