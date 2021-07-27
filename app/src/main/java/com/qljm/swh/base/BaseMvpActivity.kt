@@ -15,12 +15,8 @@ import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.LogUtils
 import com.qljm.swh.R
-import com.qljm.swh.mvp.contract.IPresenterContractEx
-import com.qljm.swh.mvp.di.component.ActivityComponent
+import com.qljm.swh.mvp.base.IPresenterContractEx
 import com.qljm.swh.mvp.view.BaseView
-import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle
-import com.trello.rxlifecycle3.LifecycleProvider
-import mvp.ljb.kt.view.MvpAppCompatActivity
 
 
 /**
@@ -28,15 +24,16 @@ import mvp.ljb.kt.view.MvpAppCompatActivity
  * 使用该项目前，请下载MVP Creator
  * https://plugins.jetbrains.com/plugin/10605-mvp-creator
  */
-abstract class BaseMvpActivity<out P : IPresenterContractEx> : MvpAppCompatActivity<P>(), BaseView {
+abstract class BaseMvpActivity<out P : IPresenterContractEx> : MvpAppCompatActivityEx<P>(), BaseView {
 
     private val SYSTEM_UI_FLAG_OP_STATUS_BAR_TINT = 0x00000010
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var mLifecycleProvider: LifecycleProvider<*>? =
-            AndroidLifecycle.createLifecycleProvider(this)
-        LogUtils.d("BaseMvpActivity=============${mLifecycleProvider}")
-        getPresenter().registerLifecycle(mLifecycleProvider!!)
+        // 注册RxLifecycle
+//        val mLifecycleProvider: LifecycleProvider<*> =
+//            AndroidLifecycle.createLifecycleProvider(this)
+//        LogUtils.d("BaseMvpActivity=============${mLifecycleProvider}")
+        getPresenter().registerLifecycle(this)
         setContentView(getLayoutId())
         init(savedInstanceState)
         initView()
@@ -44,8 +41,6 @@ abstract class BaseMvpActivity<out P : IPresenterContractEx> : MvpAppCompatActiv
     }
 
     protected abstract fun getLayoutId(): Int
-
-    protected abstract fun setupComponent(activityComponent: ActivityComponent)
 
     protected open fun init(savedInstanceState: Bundle?) {}
 
@@ -175,11 +170,11 @@ abstract class BaseMvpActivity<out P : IPresenterContractEx> : MvpAppCompatActiv
     }
 
     override fun showLoading() {
-
+        LogUtils.d("rxjava showLoading==============${Thread.currentThread().name}")
     }
 
 
     override fun hideLoading() {
-
+        LogUtils.d("rxjava hideLoading==============${Thread.currentThread().name}")
     }
 }

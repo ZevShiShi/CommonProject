@@ -6,21 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import mvp.ljb.kt.contract.IPresenterContract
-import mvp.ljb.kt.view.MvpFragment
+import com.qljm.swh.mvp.base.IPresenterContractEx
+import com.qljm.swh.mvp.view.BaseView
 
 /**
  * 实现了懒加载的fragment
  * onViewCreated->onActivityCreated
  *
  */
-abstract class BaseMvpLazyFragment<out P : IPresenterContract> : MvpFragment<P>() {
+abstract class BaseMvpLazyFragment<out P : IPresenterContractEx> : MvpFragmentEx<P>(), BaseView {
 
     private var hasLoaded = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getPresenter().registerLifecycle(this)
         init(savedInstanceState)
     }
 
@@ -29,8 +29,7 @@ abstract class BaseMvpLazyFragment<out P : IPresenterContract> : MvpFragment<P>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(getLayoutId(), container, false)
-        return view
+        return inflater.inflate(getLayoutId(), container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,5 +75,13 @@ abstract class BaseMvpLazyFragment<out P : IPresenterContract> : MvpFragment<P>(
             hasLoaded = true
             loadLazyData()
         }
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun hideLoading() {
+
     }
 }

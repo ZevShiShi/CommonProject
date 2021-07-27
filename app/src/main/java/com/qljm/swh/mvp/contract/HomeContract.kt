@@ -1,7 +1,10 @@
 package com.qljm.swh.mvp.contract
 
-import mvp.ljb.kt.contract.IPresenterContract
-import mvp.ljb.kt.contract.IViewContract
+import com.qljm.swh.bean.base.BaseArrayBean
+import com.qljm.swh.bean.news.ChannelGroupBean
+import com.qljm.swh.mvp.base.IPresenterContractEx
+import com.qljm.swh.mvp.view.BaseView
+import io.reactivex.Observable
 import mvp.ljb.kt.contract.IModelContract
 
 /**
@@ -11,9 +14,15 @@ import mvp.ljb.kt.contract.IModelContract
  **/
 interface HomeContract {
 
-    interface IView : IViewContract
+    interface IView : BaseView {
+        fun getChannels(datas: MutableList<ChannelGroupBean>)
+    }
 
-    interface IPresenter : IPresenterContract
+    interface IPresenter : IPresenterContractEx {
+        fun getChannels()
+    }
 
-    interface IModel : IModelContract
+    interface IModel : IModelContract {
+        fun getChannels(): Observable<BaseArrayBean<ChannelGroupBean>>
+    }
 }

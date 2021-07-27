@@ -2,6 +2,7 @@ package com.qljm.swh.mvp.contract
 
 import com.qljm.swh.bean.BannerBean
 import com.qljm.swh.bean.base.BaseBean
+import com.qljm.swh.mvp.base.IPresenterContractEx
 import com.qljm.swh.mvp.view.BaseView
 import io.reactivex.Observable
 import mvp.ljb.kt.contract.IModelContract

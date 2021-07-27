@@ -17,7 +17,10 @@ fun <T> Observable<T>.subscribeNet(context: Context, func: (BaseNetObserver<T>.(
     subscribe(BaseNetObserver<T>(context).apply(func))
 }
 
-fun <T> applySchedulers(view: BaseView, lifecycleProvider: LifecycleProvider<*>): ObservableTransformer<T, T>? {
+fun <T> applySchedulers(
+    view: BaseView,
+    lifecycleProvider: LifecycleProvider<*>
+): ObservableTransformer<T, T>? {
     return ObservableTransformer { observable ->
         observable.subscribeOn(Schedulers.io())
             .doOnSubscribe {

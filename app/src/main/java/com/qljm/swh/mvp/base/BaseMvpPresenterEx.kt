@@ -1,13 +1,14 @@
-package com.qljm.swh.mvp.presenter
+package com.qljm.swh.mvp.base
 
-import com.qljm.swh.mvp.contract.IPresenterContractEx
 import com.trello.rxlifecycle3.LifecycleProvider
 import mvp.ljb.kt.contract.IModelContract
 import mvp.ljb.kt.contract.IViewContract
 import mvp.ljb.kt.presenter.BaseMvpPresenter
 
 /**
- *  扩展对RxLifecycle的注入
+ *  每个Presenter都要替换
+ *  继承[BaseMvpPresenter],扩展对RxLifecycle的注入
+ *
  */
 abstract class BaseMvpPresenterEx<out V : IViewContract, out M : IModelContract> :
     BaseMvpPresenter<V, M>(),

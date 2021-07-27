@@ -38,8 +38,7 @@ class BaseConstant {
         // 这里千万不要改动，release包，默认正式打包环境是阿里，如果debug需要切换请从首页logo的PopWindow点击切换服务  19871
         var BASE_URL = BASE_ALI_URL
         var BASE_h5 = BASE_ALI_h5
-
-        //        var BASE_URL = BASE_ALI_UAT_URL
+//                var BASE_URL = BASE_ALI_UAT_URL
 //        var BASE_h5 = BASE_ALI_UAT_h5
         var BASE_PUSH_URL = "http://api.worldhds.net:10300"
 

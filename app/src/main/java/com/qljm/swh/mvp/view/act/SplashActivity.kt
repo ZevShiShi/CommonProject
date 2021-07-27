@@ -5,9 +5,6 @@ import com.qljm.swh.R
 import com.qljm.swh.base.BaseMvpActivity
 import com.qljm.swh.bean.BannerBean
 import com.qljm.swh.mvp.contract.SplashContract
-import com.qljm.swh.mvp.di.component.ActivityComponent
-import com.qljm.swh.mvp.di.component.DaggerSplashComponent
-import com.qljm.swh.mvp.di.module.SplashModule
 import com.qljm.swh.mvp.presenter.SplashPresenter
 
 /**
@@ -21,22 +18,16 @@ class SplashActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContr
 
     override fun getLayoutId() = R.layout.activity_splash
 
+    override fun initView() {
+        super.initView()
+    }
+
     override fun initData() {
         super.initData()
         getPresenter().getBanner()
     }
 
-    override fun setupComponent(appComponent: ActivityComponent) {
-        LogUtils.d("SplashActivity====================$appComponent")
-        DaggerSplashComponent
-            .builder()
-            .activityComponent(appComponent)
-            .splashModule(SplashModule())
-            .build()
-            .inject(this)
-    }
-
     override fun getBanner(bean: BannerBean) {
-
+        LogUtils.e("SplashActivity getBanner=========$bean")
     }
 }

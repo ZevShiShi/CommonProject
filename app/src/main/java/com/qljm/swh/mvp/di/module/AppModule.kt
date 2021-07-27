@@ -11,7 +11,7 @@ class AppModule {
     @Singleton
     @Provides
     fun providesRetrofitFactory(): RetrofitFactory {
-        return RetrofitFactory()
+        return RetrofitFactory.instance
     }
 }
 

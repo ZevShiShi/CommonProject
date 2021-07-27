@@ -9,6 +9,7 @@ import io.reactivex.plugins.RxJavaPlugins
 
 class BaseApplication : Application() {
 
+
     companion object {
         lateinit var context: Application
         fun isDebug(): Boolean {
@@ -24,6 +25,9 @@ class BaseApplication : Application() {
         RxJavaPlugins.setErrorHandler { e: Throwable ->
             LogUtils.e("RxError", e)
         }
+
+
+//        LogUtils.d("RetrofitFactory==============$retrofitFactory")
     }
 
 }
